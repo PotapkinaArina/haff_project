@@ -26,6 +26,26 @@ Node* putNode(unsigned char symb, unsigned int freq, Node* left, Node* right)
 	return node;
 }
 
+void encode(Node* root, string str, string sCodes[])
+{
+	if (root == nullptr)
+		return;
+
+	if (!root->left && !root->right)
+	{
+		for (int s = 0; s < SIZE; ++s)
+		{
+			if (sCodes[s].empty())
+			{
+				sCodes[s] = str;
+				return;
+			}
+		}
+	}
+	encode(root->left, str + '0', sCodes);
+	encode(root->right, str + '1', sCodes);
+}
+
 int main()
 {
 	FILE* fr = fopen("input.txt", "rb");
@@ -48,5 +68,8 @@ int main()
 		if (freq[i] != 0) cout << freq[i] << endl;
 		symb_count++;
 	}
+
+	string sCodes[SIZE];
+
 	return 0;
 }
