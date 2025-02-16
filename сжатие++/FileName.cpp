@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <queue>
 #define SIZE 256
 using namespace std;
 
@@ -20,12 +21,46 @@ Node* putNode(unsigned char symb, unsigned int freq, Node* left, Node* right)
 {
 	Node* node = new Node(); 
 	node->symb = symb;
+	node->freq = freq;
 	node->left = left;
 	node->right = right;
 
 	return node;
 }
 
+struct comp //для выставления приориетов очереди по частоте 
+{
+	bool operator()(Node* l, Node* r)
+	{
+		return l->freq > r->freq;
+	}
+};
+
+Node* createTree(string str, const int freq[])
+{
+	//создание очереди с приоритетом
+	priority_queue<Node*, vector<Node*>, comp> pq;
+	for (int i = 0; (i < SIZE && freq[i] != 0); i++)
+	{
+		Node* newNode = putNode(i, freq[i], nullptr, nullptr);
+		pq.push(newNode); //кладем ноду в очередь
+	}
+	//создание дерева на основе очереди
+	while (pq.size() > 1) 
+	{
+		Node* left = pq.top();
+		pq.pop();
+		Node* right = pq.top();
+		pq.pop();
+		int false_node_sum = left->freq + right->freq;
+		Node* newFalseNode = putNode('\0', false_node_sum,left,right);
+		pq.push(newFalseNode);
+	}
+	Node* root = pq.top();
+	return root;
+}
+
+//функция кодировки
 void encode(Node* root, string str, string sCodes[])
 {
 	if (root == nullptr)
@@ -44,6 +79,21 @@ void encode(Node* root, string str, string sCodes[])
 	}
 	encode(root->left, str + '0', sCodes);
 	encode(root->right, str + '1', sCodes);
+}
+
+//сюда передается исходная строка и массив кодов
+string encode_string(const string& str, const string sCodes[])
+{
+	string encodedStr; //исходная строка в виде кодов
+	for (int i = 0; i < str.length(); ++i)
+	{
+		char c = str[i];
+		string code = sCodes[(int)c];
+		if (code.empty())
+			continue;
+		encodedStr += code;
+	}
+	return encodedStr;
 }
 
 int main()
@@ -69,7 +119,17 @@ int main()
 		symb_count++;
 	}
 
-	string sCodes[SIZE];
+	string sCodes[SIZE] = { "" };
 
+	Node* root = createTree("", freq);
+	encode(root, "", sCodes);
+
+	for (int i = 0; i < SIZE; ++i)
+	{
+		if (!sCodes[i].empty())
+		{
+			cout << (char)i << ": " << sCodes[i] << endl;
+		}
+	}
 	return 0;
 }
