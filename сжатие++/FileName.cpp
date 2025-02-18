@@ -9,7 +9,6 @@ using namespace std;
 struct Node
 {
 	unsigned char symb;
-	unsigned char isSymb;
 	unsigned int freq;
 	Node* left, * right, * next;
 };
@@ -42,7 +41,6 @@ int main()
 	}
 	fclose(fr);
 
-	int symb_count = 0;
 	for (int i = 0; i < SIZE; i++)
 	{
 		if (freq[i] != 0) cout << freq[i] << endl;
