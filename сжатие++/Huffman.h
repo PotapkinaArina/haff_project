@@ -27,3 +27,4 @@ string bit_string2encode_text(string encode_string_);
 
 string symbol_byte(int lenght_, unsigned symbol_);
 string encode_text2bit_string(string encode_text_);
+string bit_string2decode_text(string bit_string_, Node* root_);

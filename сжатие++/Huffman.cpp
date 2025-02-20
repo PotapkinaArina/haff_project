@@ -122,3 +122,20 @@ string encode_text2bit_string(string encode_text_)
 	//bit_string += symbol_byte(tail, encode_text_[lenght - 1]);
 	return bit_string;
 }
+
+string bit_string2decode_text(string bit_string_, Node* root_)
+{
+	string decode_text;
+	Node* root = root_;
+	for (int i = 0; i < bit_string_.size(); i++) {
+		if (bit_string_[i] == '0')
+			root_ = root_->left;
+		else
+			root_ = root_->right;
+		if (!root_->left && !root_->right) {
+			decode_text += root_->symb;
+			root_ = root;
+		}
+	}
+	return decode_text;
+}
