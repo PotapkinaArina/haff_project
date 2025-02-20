@@ -4,6 +4,9 @@
 #include <vector>
 #include <queue>
 #include "Huffman.h"
+
+#define BIT8 8
+
 using namespace std;
 
 Node* createNode(unsigned char symb, unsigned int freq, Node* left, Node* right)
@@ -74,4 +77,22 @@ string encode_string(const vector<unsigned char>& givenStr, const string sCodes[
 	}
 	cout << encodedStr << endl;
 	return encodedStr;
+}
+
+string bit_string2encode_text(string encode_string_)
+{
+	string encode_text = "";
+	int lenght = encode_string_.size();
+	int tail = lenght % BIT8;
+	char symbol = 0;
+	for (int i = 0; i < lenght; i++) {
+		symbol <<= 1;
+		symbol += encode_string_[i] - '0';
+		if (i % BIT8 == BIT8 - 1) {
+			encode_text + symbol;
+			symbol = 0;
+		}
+	}
+	encode_text += symbol;
+	return encode_text;
 }

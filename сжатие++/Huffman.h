@@ -22,3 +22,4 @@ Node* createNode(unsigned char symb, unsigned int freq, Node* left, Node* right)
 Node* createTree(const int freq[]);
 void encode(Node* root, string str, string sCodes[]);
 string encode_string(const vector<unsigned char>& givenStr, const string sCodes[]);
+string bit_string2encode_text(string encode_string_);
