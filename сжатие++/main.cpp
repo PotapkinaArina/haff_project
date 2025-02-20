@@ -33,7 +33,7 @@ int main()
     
     string sCodes[SIZE];
     encode(root, "", sCodes);
-    for (int s = 0; s < SIZE; s++)
+    for (int s = 0; s <Tc SIZE; s++)
     {
         if (!(sCodes[s].empty()))
             cout << sCodes[s] << char(s) << endl;

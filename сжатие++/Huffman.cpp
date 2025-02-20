@@ -6,6 +6,7 @@
 #include "Huffman.h"
 
 #define BIT8 8
+#define SIZE 256
 
 using namespace std;
 
@@ -95,4 +96,29 @@ string bit_string2encode_text(string encode_string_)
 	}
 	encode_text += symbol;
 	return encode_text;
+}
+
+string symbol_byte(int lenght_, unsigned symbol_)
+{
+	string byte(lenght_, ' ');
+	for (int i = 0; i < lenght_; i++) {
+		byte[lenght_ - 1 - i] = '0' + symbol_ % 2;
+		symbol_ /= 2;
+	}
+	return byte;
+}
+
+string encode_text2bit_string(string encode_text_)
+{
+	string bit_string = "";
+	string bytes[SIZE];
+	//int tail;
+	int lenght = encode_text_.size();
+	for (int i = 0; i < lenght - 1; i++) {
+		unsigned char symbol = encode_text_[i];
+		if (bytes[symbol] == "")
+			bytes[symbol] = symbol_byte(BIT8, symbol);
+	}
+	//bit_string += symbol_byte(tail, encode_text_[lenght - 1]);
+	return bit_string;
 }
