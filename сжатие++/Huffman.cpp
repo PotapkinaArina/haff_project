@@ -4,7 +4,6 @@
 #include <vector>
 #include <queue>
 #include "Huffman.h"
-#define SIZE 256
 using namespace std;
 
 Node* createNode(unsigned char symb, unsigned int freq, Node* left, Node* right)
@@ -43,4 +42,36 @@ Node* createTree(const int freq[])
 	}
 	Node* root = pq.top();
 	return root;
+}
+
+//функци€ кодировки
+void encode(Node* root, string str, string sCodes[])
+{
+	if (root == nullptr)
+		return;
+
+	if (!root->left && !root->right)
+	{
+		sCodes[root->symb] = str;
+		return;
+	}
+	encode(root->left, str + '0', sCodes);
+	encode(root->right, str + '1', sCodes);
+}
+
+//сюда передаетс€ исходна€ строка и массив кодов
+string encode_string(const vector<unsigned char>& givenStr, const string sCodes[])
+{
+	string encodedStr = ""; //исходна€ строка в виде кодов
+	for (int i = 0; i < givenStr.size(); ++i)
+	{
+		unsigned char byte = givenStr[i];
+		string code = sCodes[byte];
+		if (!code.empty())
+		{
+			encodedStr += code;
+		}
+	}
+	cout << encodedStr << endl;
+	return encodedStr;
 }

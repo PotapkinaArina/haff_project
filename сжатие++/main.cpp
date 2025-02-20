@@ -3,7 +3,6 @@
 #include <fstream>
 #include <vector>
 #include "Huffman.h"
-#define SIZE 256
 using namespace std;
 
 
@@ -31,5 +30,16 @@ int main()
     }
 
     Node* root = createTree(freq);
- 
+    
+    string sCodes[SIZE];
+    encode(root, "", sCodes);
+    for (int s = 0; s < SIZE; s++)
+    {
+        if (!(sCodes[s].empty()))
+            cout << sCodes[s] << char(s) << endl;
+    }
+
+    encode_string(givenStr, sCodes);
+
+    return 0;
 }
