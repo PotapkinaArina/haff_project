@@ -1,5 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <vector>
 #include <queue>
@@ -77,16 +78,17 @@ void encode(Node* root, string str, string sCodes[])
 }
 
 //сюда передается исходная строка и массив кодов
-string encode_string(const string& str, const string sCodes[])
+string encode_string(const vector<unsigned char>& givenStr, const string sCodes[])
 {
     string encodedStr = ""; //исходная строка в виде кодов
-    for (int i = 0; i < str.length(); ++i)
+    for (int i = 0; i < givenStr.size(); ++i)
     {
-        char c = str[i];
-        string code = sCodes[(int)c];
-        if (code.empty())
-            continue;
-        encodedStr += code;
+        unsigned char byte = givenStr[i];
+        string code = sCodes[byte];
+        if (!code.empty())
+        {
+            encodedStr += code;
+        }
     }
     cout << encodedStr << endl;
     return encodedStr;
@@ -94,22 +96,26 @@ string encode_string(const string& str, const string sCodes[])
 
 int main()
 {
-    FILE* fr = fopen("input.txt", "rb");
-    if (!fr)
-        return -1;
-    fseek(fr, 0L, SEEK_END);
-    long length = ftell(fr);
-    fseek(fr, 0, SEEK_SET);
+    string fileName;
+    cout << "Enter name of the file: ";
+    cin >> fileName;
+
+    ifstream input(fileName, ios::binary);
+
     int freq[SIZE] = { 0 }; //массив частот
 
-    string givenStr = "";
-    for (int i = 0; i < length; ++i)
+    vector<unsigned char> givenStr;
+    unsigned char byte;
+    while (input.read(reinterpret_cast<char*>(&byte), 1))
     {
-        char c = fgetc(fr);
-        freq[(unsigned char)c]++;
-        givenStr += c;
+        givenStr.push_back(byte);
     }
-    fclose(fr);
+    input.close();
+
+    for (unsigned char c : givenStr)
+    {
+        freq[c]++;
+    }
 
     for (int i = 0; i < SIZE; i++)
     {
