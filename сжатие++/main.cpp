@@ -46,6 +46,7 @@ int main()
             freq[c]++;
         }
 
+
         Node* root = createTree(freq);
 
         string sCodes[SIZE];
@@ -65,7 +66,7 @@ int main()
 
         for (int i = 0; i < SIZE; i++)
         {
-            if (sCodes[i].size() != 0)
+            if (freq[i]!=0)
             {
                 data << char(i) << ' ' << freq[i] << endl;
             }
@@ -86,7 +87,7 @@ int main()
         ifstream data_("data.txt", ios::binary);
         string line;
         string format;
-        int tail = 0;
+        unsigned int tail = 0;
         int freq[SIZE] = { 0 };
         while (std::getline(data_, line))
         {
@@ -96,8 +97,7 @@ int main()
             }
             else if (line.find("tail-") != std::string::npos)
             {
-                tail = stoi(line.substr(line.find("-") + 1)); // Извлечение итога из строки
-                cout << tail << endl;
+                tail = stoi(line.substr(line.find("-") + 1)); // Извлечение итога из 
             }
             else {
                 unsigned char symbol = line[0];
@@ -105,15 +105,15 @@ int main()
                     freq[symbol] *= 10;
                     freq[symbol] += line[i] - '0';
                 }
-                //cout << symbol << freq[symbol] << endl;
+                //cout << symbol << ' ' << freq[symbol] << endl;
 
             }
         }
         data_.close();
-
         Node* root = createTree(freq);
 
-        ifstream input_("encode.txt", ios::binary);
+        ifstream input_;
+        input_.open("encode.txt", ios::binary);
         string encode_text;
         char ch;
         while (input_.get(ch))
@@ -123,9 +123,9 @@ int main()
         input_.close();
 
         string str = encode_text2bit_string(encode_text, tail);
-
         string dec = "decoded." + format;
-        ofstream decode(dec, ios::binary);
+        ofstream decode;
+        decode.open(dec, ios::binary);
         decode << bit_string2decode_text(str, root);
         decode.close();
 

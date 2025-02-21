@@ -29,6 +29,7 @@ Node* createTree(const int freq[])
 	{
 		if (freq[i] != 0)
 		{
+			cout << unsigned char(i) << ' ' << freq[i] << endl;
 			Node* newNode = createNode(char(i), freq[i], nullptr, nullptr);
 			pq.push(newNode); //кладем ноду в очередь
 		}
@@ -57,7 +58,6 @@ void encode(Node* root, string str, string sCodes[])
 	if (!root->left && !root->right)
 	{
 		sCodes[root->symb] = str;
-		cout << root->symb << ' ' << str << endl;
 		return;
 	}
 	encode(root->left, str + '0', sCodes);
@@ -114,13 +114,12 @@ string symb_bit(int lenght_, unsigned symb_)
 
 string encode_text2bit_string(string encode_text_, int tail_)
 {
-	cout << tail_ << endl;
 	string bit_string = "";
 	string bits[SIZE];
 	int lenght = encode_text_.size();
 	for (int i = 0; i < lenght - 1; i++)
 	{
-		unsigned c = encode_text_[i];
+		unsigned char c = encode_text_[i];
 		if (bits[c] == "")
 		{
 			bits[c] = symb_bit(BIT8, c);
