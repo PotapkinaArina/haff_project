@@ -1,0 +1,5 @@
+format-txt
+tail-6
+a 4
+b 3
+c 2

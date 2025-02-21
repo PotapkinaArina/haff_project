@@ -57,6 +57,7 @@ void encode(Node* root, string str, string sCodes[])
 	if (!root->left && !root->right)
 	{
 		sCodes[root->symb] = str;
+		cout << root->symb << ' ' << str << endl;
 		return;
 	}
 	encode(root->left, str + '0', sCodes);
@@ -111,13 +112,13 @@ string symb_bit(int lenght_, unsigned symb_)
 	return bit;
 }
 
-string encode_text2bit_string(string encode_text_)
+string encode_text2bit_string(string encode_text_, int tail_)
 {
+	cout << tail_ << endl;
 	string bit_string = "";
-	vector <string> bits;
-	int tail = encode_text_[0];
+	string bits[SIZE];
 	int lenght = encode_text_.size();
-	for (int i = 1; i < lenght - 1; i++)
+	for (int i = 0; i < lenght - 1; i++)
 	{
 		unsigned c = encode_text_[i];
 		if (bits[c] == "")
@@ -126,13 +127,13 @@ string encode_text2bit_string(string encode_text_)
 		}
 		bit_string += bits[c];
 	}
-	bit_string = bit_string + symb_bit(tail, encode_text_[lenght - 1]);
+	bit_string = bit_string + symb_bit(tail_, encode_text_[lenght - 1]);
 	return bit_string;
 }
 
 string bit_string2decode_text(string bit_string_, Node* root_)
 {
-	Node* a = root_;
+	Node* root = root_;
 	string decode_text;
 	for (int i = 0; i < bit_string_.size(); i++)
 	{
@@ -147,7 +148,7 @@ string bit_string2decode_text(string bit_string_, Node* root_)
 		if (!root_->left && !root_->right)
 		{
 			decode_text += root_->symb;
-			root_ = a;
+			root_ = root;
 		}
 
 	}

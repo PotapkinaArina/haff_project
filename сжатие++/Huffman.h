@@ -27,5 +27,5 @@ string encode_string(const vector<unsigned char>& givenStr, const string sCodes[
 string bit_string2encode_text(string encode_string_,int& tail_);
 
 string symb_bit(int lenght_, unsigned symb_);
-string encode_text2bit_string(string encode_text_);
+string encode_text2bit_string(string encode_text_, int tail_);
 string bit_string2decode_text(string bit_string_, Node* root_);
