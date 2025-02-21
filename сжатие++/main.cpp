@@ -20,9 +20,9 @@ int main()
     {
         case 1:
         {
-            if (fileName == "encode.txt")
+            if (fileName == "encode.txt" || fileName == "data.txt")
             {
-                cout << "This file is for decoding!" << endl;
+                cout << "This file can't be compressed." << endl;
                 break;
             }
 
