@@ -22,16 +22,18 @@ int main()
     {
         if (fileName == "encode.txt")
         {
-            cout << "This file is for decoding!" << endl;
-            break;
-        }
+            if (fileName == "encode.txt" || fileName == "data.txt")
+            {
+                cout << "This file can't be compressed." << endl;
+                break;
+            }
 
         ifstream input(fileName, ios::binary);
         char point = '.';
         size_t pos = fileName.find_last_of(point);
         string format = fileName.substr(pos + 1);
 
-        int freq[SIZE] = { 0 }; //ìàññèâ ÷àñòîò
+        int freq[SIZE] = { 0 }; //Ã¬Ã Ã±Ã±Ã¨Ã¢ Ã·Ã Ã±Ã²Ã®Ã²
 
         vector<unsigned char> givenStr;
         unsigned char byte;
@@ -59,7 +61,7 @@ int main()
         encode << bit_string2encode_text(encode_string(givenStr, sCodes), tail);
         encode.close();
 
-        //ñîçäàíèå äàòà-ôàéëà
+        //Ã±Ã®Ã§Ã¤Ã Ã­Ã¨Ã¥ Ã¤Ã Ã²Ã -Ã´Ã Ã©Ã«Ã 
         ofstream data("data.txt", ios::binary);
         data << "format-" << format << endl;
         data << "tail-" << tail << endl;
@@ -97,7 +99,7 @@ int main()
             }
             else if (line.find("tail-") != std::string::npos)
             {
-                tail = stoi(line.substr(line.find("-") + 1)); // Èçâëå÷åíèå èòîãà èç 
+                tail = stoi(line.substr(line.find("-") + 1)); // ÃˆÃ§Ã¢Ã«Ã¥Ã·Ã¥Ã­Ã¨Ã¥ Ã¨Ã²Ã®Ã£Ã  Ã¨Ã§ 
             }
             else {
                 unsigned char symbol = line[0];
